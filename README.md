@@ -2,7 +2,10 @@ A small app for visualizing differences in performance and execution between HTT
 
 Backend written in Flask
 
-Make header request using urllib2 or something similar
+
+Header page sizes (with and w/o compression)
+Build the request using HTTP/1.1 and HTTP/2 clients--keep conditions
+Build different types of sites
 Fake a user-agent browser to simulate what it would look like in chrome, firefox, etc.
-Read size (in bits) of all returned headers and create visual.
-Show suitable comparison pages with average difference
+Read size (in bits) of all returned headers
+Create pyramid visual--2 sites inside one another, one with http/1, another w/ http/2
