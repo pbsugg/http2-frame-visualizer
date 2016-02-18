@@ -7,12 +7,14 @@
 import httplib
 import hyper
 from hyper import HTTPConnection
+import h2.connection
 
-conn = httplib.HTTPConnection("httpbin.org")
-conn.request("GET", "/html")
-response = conn.getresponse()
-response_header = response.msg.__str__()
-
-
-conn2 = HTTPConnection('http2bin.org')
-conn2.request('GET', '/html')
+#
+# conn = httplib.HTTPConnection("httpbin.org")
+# conn.request("GET", "/html")
+# response = conn.getresponse()
+# response_header = response.msg.__str__()
+#
+#
+# conn2 = HTTPConnection('http2bin.org')
+# conn2.request('GET', '/html')
