@@ -20,7 +20,7 @@ from h2.events import (
 )
 
 
-AUTHORITY = u'http2bin.org'
+AUTHORITY = u'twitter.com'
 PATH = '/'
 SIZE = 4096
 
@@ -28,21 +28,22 @@ SIZE = 4096
 class H2Protocol(Protocol):
     def __init__(self):
         self.conn = H2Connection()
-        self.known_proto = None
+        self.known_proto = b'h2'
         self.request_made = False
         self.frames = []
 
     def connectionMade(self):
         self.conn.initiate_connection()
-
         # This reproduces the error in #396, by changing the header table size.
-        self.conn.update_settings({SettingsFrame.HEADER_TABLE_SIZE: SIZE})
+        # self.conn.update_settings({SettingsFrame.HEADER_TABLE_SIZE: SIZE})
 
         self.transport.write(self.conn.data_to_send())
+        print("connectionMade")
 
     def dataReceived(self, data):
-        if not self.known_proto:
-            self.known_proto = b'h2'
+        # print("data received")
+        # if not self.known_proto:
+            # self.known_proto = True
             # assert self.known_proto == b'h2'
 
         events = self.conn.receive_data(data)
@@ -63,11 +64,17 @@ class H2Protocol(Protocol):
             else:
                 print(event)
 
+        #here is the problem--line 67--issuing bad requests.
+        print(data)
+
         data = self.conn.data_to_send()
         if data:
             self.transport.write(data)
 
+        print("dataReceived")
+
     def settingsAcked(self, event):
+        print("have_settings")
         # Having received the remote settings change, lets send our request.
         if not self.request_made:
             self.sendRequest()
@@ -89,13 +96,13 @@ class H2Protocol(Protocol):
         reactor.stop()
 
     def sendRequest(self):
+
         request_headers = [
             (':method', 'GET'),
             (':authority', AUTHORITY),
             (':scheme', 'https'),
             (':path', PATH),
-            ('user-agent', 'hyper-h2/1.0.0'),
-        ]
+            ('user-agent', 'curl/7.9.8 (i686-pc-linux-gnu) libcurl 7.9.8 (OpenSSL 0.9.6b) (ipv6 enabled)'),]
         self.conn.send_headers(1, request_headers, end_stream=True)
         self.request_made = True
 

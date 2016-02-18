@@ -1,3 +1,6 @@
+
+# An attempt to build the connection from scratch
+
 import h2.connection
 AUTHORITY = u'http2bin.org'
 PATH = '/'
