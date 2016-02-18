@@ -20,7 +20,7 @@ from h2.events import (
 )
 
 
-AUTHORITY = u'twitter.com'
+AUTHORITY = u'google.com'
 PATH = '/'
 SIZE = 4096
 
@@ -41,7 +41,6 @@ class H2Protocol(Protocol):
         print("connectionMade")
 
     def dataReceived(self, data):
-        # print("data received")
         # if not self.known_proto:
             # self.known_proto = True
             # assert self.known_proto == b'h2'
@@ -74,7 +73,6 @@ class H2Protocol(Protocol):
         print("dataReceived")
 
     def settingsAcked(self, event):
-        print("have_settings")
         # Having received the remote settings change, lets send our request.
         if not self.request_made:
             self.sendRequest()
@@ -96,7 +94,6 @@ class H2Protocol(Protocol):
         reactor.stop()
 
     def sendRequest(self):
-
         request_headers = [
             (':method', 'GET'),
             (':authority', AUTHORITY),
@@ -105,6 +102,7 @@ class H2Protocol(Protocol):
             ('user-agent', 'curl/7.9.8 (i686-pc-linux-gnu) libcurl 7.9.8 (OpenSSL 0.9.6b) (ipv6 enabled)'),]
         self.conn.send_headers(1, request_headers, end_stream=True)
         self.request_made = True
+
 
 options = optionsForClientTLS(
     hostname=AUTHORITY,
