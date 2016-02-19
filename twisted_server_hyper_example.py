@@ -20,7 +20,7 @@ from h2.events import (
 )
 
 
-AUTHORITY = u'google.com'
+AUTHORITY = u'http2bin.org'
 PATH = '/'
 SIZE = 4096
 
@@ -70,14 +70,16 @@ class H2Protocol(Protocol):
         if data:
             self.transport.write(data)
 
-        print("dataReceived")
+
 
     def settingsAcked(self, event):
         # Having received the remote settings change, lets send our request.
         if not self.request_made:
+
             self.sendRequest()
 
     def handleResponse(self, response_headers, stream_id):
+
         for name, value in response_headers:
             print("%s: %s" % (name, value))
 
@@ -99,7 +101,8 @@ class H2Protocol(Protocol):
             (':authority', AUTHORITY),
             (':scheme', 'https'),
             (':path', PATH),
-            ('user-agent', 'curl/7.9.8 (i686-pc-linux-gnu) libcurl 7.9.8 (OpenSSL 0.9.6b) (ipv6 enabled)'),]
+            ('user-agent', 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36)')
+            ]
         self.conn.send_headers(1, request_headers, end_stream=True)
         self.request_made = True
 
