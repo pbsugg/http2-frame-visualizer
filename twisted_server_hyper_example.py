@@ -20,7 +20,7 @@ from h2.events import (
 )
 
 
-AUTHORITY = u'http2bin.org'
+AUTHORITY = u'wordpress.com'
 PATH = '/'
 SIZE = 4096
 
@@ -33,10 +33,13 @@ class H2Protocol(Protocol):
         self.frames = []
 
     def connectionMade(self):
+        # print("transport: %s" % self.transport)
+        # print(self.conn.local_settings._settings)
+        print(self.conn.local_settings.items())
         self.conn.initiate_connection()
         # This reproduces the error in #396, by changing the header table size.
-        # self.conn.update_settings({SettingsFrame.HEADER_TABLE_SIZE: SIZE})
-
+        self.conn.update_settings({SettingsFrame.HEADER_TABLE_SIZE: SIZE})
+        print(self.conn._data_to_send)
         self.transport.write(self.conn.data_to_send())
         print("connectionMade")
 
@@ -75,14 +78,11 @@ class H2Protocol(Protocol):
     def settingsAcked(self, event):
         # Having received the remote settings change, lets send our request.
         if not self.request_made:
-
             self.sendRequest()
 
     def handleResponse(self, response_headers, stream_id):
-
         for name, value in response_headers:
             print("%s: %s" % (name, value))
-
         print("")
 
     def handleData(self, data, stream_id):
@@ -101,19 +101,28 @@ class H2Protocol(Protocol):
             (':authority', AUTHORITY),
             (':scheme', 'https'),
             (':path', PATH),
-            ('user-agent', 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36)')
+            ('user-agent', 'hyper-h2/1.0.0')
             ]
+
+        # print(type(request_headers))
         self.conn.send_headers(1, request_headers, end_stream=True)
         self.request_made = True
 
 
+"""
+fixed ssl with "acceptableProtocols in twisted, see this:"
+http://twisted.readthedocs.org/en/latest/core/howto/ssl.html
+"""
+
 options = optionsForClientTLS(
     hostname=AUTHORITY,
-    # extraCertificateOptions={'nextProtocols': [b'h2']},
+    acceptableProtocols=[b'h2', b'http/1.1'],
 )
 
 connectProtocol(
     SSL4ClientEndpoint(reactor, AUTHORITY, 443, options),
     H2Protocol()
 )
+
+
 reactor.run()
