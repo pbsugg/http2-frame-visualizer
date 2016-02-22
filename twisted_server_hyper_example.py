@@ -5,6 +5,10 @@ A short example that demonstrates a client that makes HEAD requests to certain
 websites.
 This example is intended as a reproduction of nghttp2 issue 396, for the
 purposes of compatibility testing.
+
+my notes:
+TD: Deal with sites that "hang"--provide a termination signal after pre-determined point
+TD: Some sites still fail-redirects, etc.
 """
 from __future__ import print_function
 
@@ -20,7 +24,7 @@ from h2.events import (
 )
 
 
-AUTHORITY = u'wordpress.com'
+AUTHORITY = u'twitter.com'
 PATH = '/'
 SIZE = 4096
 
