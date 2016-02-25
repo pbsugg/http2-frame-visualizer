@@ -7,9 +7,11 @@ This example is intended as a reproduction of nghttp2 issue 396, for the
 purposes of compatibility testing.
 
 my notes:
+TD: Add more frame options from h2.events
 TD: Deal with sites that "hang"--provide a termination signal after pre-determined point
-TD: Some sites still fail-redirects, etc.
+TD: Some sites still fail--redirects, etc.
 """
+
 from __future__ import print_function
 
 from twisted.internet import reactor
@@ -70,8 +72,6 @@ class H2Protocol(Protocol):
             else:
                 print(event)
 
-        #here is the problem--line 67--issuing bad requests.
-        print(data)
 
         data = self.conn.data_to_send()
         if data:
