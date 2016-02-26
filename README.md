@@ -13,7 +13,9 @@ Fake a user-agent browser to simulate what it would look like in chrome, firefox
 Read size (in bits) of all returned headers
 Create pyramid visual--2 sites inside one another, one with http/1, another w/ http/2
 
-2/18 TD:
+2/25 TD:
 
-Get twisted server to receive any http2 website
-Fork the repo and see if you can't tweak some of these methods to show a little more info (is this even possible?)
+Spec:
+
+Show frames coming in (static at first--eventually real-time!)
+Header sizes (averaged over many sites?)
