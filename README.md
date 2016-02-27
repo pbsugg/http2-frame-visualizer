@@ -1,21 +1,27 @@
-A small app for visualizing differences in performance and execution between HTTP/1.x new HTTP/2 standard.  Visualizations will be built in D3.js and other forms when necessary.  First tell will be a visualization of reduced header sizes in HTTP/2.  Workflow will be something like the following:
+An app to visualize the mechanics of HTTP/2 streams in real-time.  Visualization stream built in D3.js, Python Flask backend.
 
-Backend written in Flask
+__Goals of the project:__
 
-2/10
+__I__ For a user (developer audience), I want the basic functionality of the http/2 protocol to become apparent at a glance (wasn't the case when I started this investigation)  The user should immediately "get it" upon using my app once or twice.  BOTTOM LINE: What "value" do I add over another visualization service like chrome's "net-internals?"
 
-Possible tasks to visualize
+  Building blocks:
 
-Header page sizes (with and w/o compression)
-Build the request using HTTP/1.1 and HTTP/2 clients--keep conditions
-Build different types of sites
-Fake a user-agent browser to simulate what it would look like in chrome, firefox, etc.
-Read size (in bits) of all returned headers
-Create pyramid visual--2 sites inside one another, one with http/1, another w/ http/2
+  Frames broken down by type--how to simulate frames?
+     A "stream" is horizontal flow--left to right, similar to this example in D3 gallery:
+     http://bl.ocks.org/mbostock/raw/4060954/
+     Size (vertical width) of the stream shows how much data is coming through (when waiting for server push)
+     Data "packets" are bumps in the stream, sized according to the time they come in
+     Want an "open" stream to vibrate or pulse a bit, signaling it's still open
 
-2/25 TD:
+  Information about each frame will appear below the stream itself.  Access more by clicking
+    Actual data, representative values, etc.
 
-Spec:
+  Reach aspects:
+  Request stream (just show response for now)
+  Stream multiplexing (multiple incoming streams--as they open)
 
-Show frames coming in (static at first--eventually real-time!)
-Header sizes (averaged over many sites?)
+__II__ I want short, simple explanations.  Keep the documentation to a minimum, want it to be as easy as possible for a user to get into this app and see the mechanics of http2 happen
+
+  Two types of Documention:
+    1) Static intro
+    2) In-process: Info the user accesses as he/she clicks through the browser.  Most information should be "dynamic"
