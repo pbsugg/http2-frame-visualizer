@@ -21,12 +21,3 @@ An app to visualize the mechanics of HTTP/2 streams in real-time.  Visualization
   * Request stream (just show response for now)
   * Other HTTP verbs besides GET
   * Stream multiplexing (multiple incoming streams--as they open)
-
-#### Documentation
-
-  * I want short, simple explanations.  
-    Keep the documentation to a minimum, want it to be as easy as possible for a user to get into this app and see the mechanics of http2 happen
-
-  * Two types of Documention:
-    1. Static intro
-    2. In-process: Info the user accesses as he/she clicks through the browser.  Most information should be "dynamic"
