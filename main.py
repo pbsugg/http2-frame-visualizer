@@ -1,9 +1,11 @@
 from flask import Flask
+from flask import render_template
+
 app = Flask(__name__)
 
 @app.route('/')
-def start():
-    return '<h1>Python HTTP2 Visualizer<h1>'
+def main():
+    return render_template('main.html')
 
 @app.route('/hello')
 def stop():
