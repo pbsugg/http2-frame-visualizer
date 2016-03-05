@@ -1,3 +1,27 @@
-body {
-    background-color: red;
+.title_heading {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    text-align: center;
+    border-bottom: 1px solid;
+    margin-bottom: 15px;
+}
+
+
+.title_heading h1 {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  color: #009966;
+  /*width: 30em;*/
+}
+
+
+nav {
+  margin-right: 1em;
+  position: relative;
+  border-right: 1px solid;
+  padding-right: 1em;
+  float: left;
+  display: block;
 }

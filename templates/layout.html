@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <title>Visualize HTTP2</title>
-<link rel="stylesheet" type="text/css" src="/static/css/normalize.css">
-<link rel="stylesheet" type="text/css" src="/static/css/base.css">
-
-</html>
-  <head>
-     <h1>Python HTTP2 Visualizer</h1>
-  </head>
-</body>
-  </nav>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/normalize.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base.css')}}">
+<div class="page">
+  <div class="title_heading">
+    <h1> Visualize HTTP/2 </h1>
+  </div>
+  <nav>
     <ul>
       <li>Visualizer</li>
       <li>About</li>
       <li>Other Info</li>
     </ul>
   </nav>
-</body>
-
+    {% block body %}
+    {% endblock %}
+</div>
 
 </html>

@@ -4,7 +4,7 @@ import unittest
 import tempfile
 
 class MainTestCase(unittest.TestCase):
-
+    
     def setUp(self):
         self.app = flaskr.app.test_client()
 
