@@ -4,7 +4,6 @@
     display: block;
     text-align: center;
     border-bottom: 1px solid;
-    margin-bottom: 15px;
 }
 
 
@@ -18,10 +17,14 @@
 
 
 nav {
-  margin-right: 1em;
-  position: relative;
   border-right: 1px solid;
   padding-right: 1em;
   float: left;
-  display: block;
+  min-width: 10em;
+}
+
+.main {
+  margin 0 auto;
+  padding-left: 2em;
+  color: red;
 }
