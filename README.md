@@ -4,7 +4,7 @@ An app to visualize the mechanics of HTTP/2 streams in real-time.  Visualization
 
 ## Goals of the project
 
- For a user (developer audience), I want the basic functionality of the http/2 protocol to become apparent at a glance.  When I make a GET request to a site, the user should immediately see the exchange of frames from client to user and vice-versa (see mockup_images).  BOTTOM LINE: What "value" do I add over another visualization service like chrome's "net-internals?"
+ For a user (developer audience), I want the basic functionality of the http/2 protocol to become apparent at a glance.  When I make a GET request to a site, the user should immediately see the exchange of frames from client to user and vice-versa (see mockup_images).  
 
 ### Project Components
 
