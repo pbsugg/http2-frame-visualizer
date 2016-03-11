@@ -24,7 +24,7 @@ from h2.events import (
     ResponseReceived, DataReceived, RemoteSettingsChanged, StreamEnded,
     StreamReset, SettingsAcknowledged,
 )
-
+import json
 
 AUTHORITY = u'twitter.com'
 PATH = '/'
@@ -36,18 +36,13 @@ class H2Protocol(Protocol):
         self.conn = H2Connection()
         self.known_proto = b'h2'
         self.request_made = False
-        self.frames = []
+        self.events = []
 
     def connectionMade(self):
-        # print("transport: %s" % self.transport)
-        # print(self.conn.local_settings._settings)
-        print(self.conn.local_settings.items())
         self.conn.initiate_connection()
         # This reproduces the error in #396, by changing the header table size.
         self.conn.update_settings({SettingsFrame.HEADER_TABLE_SIZE: SIZE})
-        print(self.conn._data_to_send)
         self.transport.write(self.conn.data_to_send())
-        print("connectionMade")
 
     def dataReceived(self, data):
         # if not self.known_proto:
@@ -57,7 +52,7 @@ class H2Protocol(Protocol):
         events = self.conn.receive_data(data)
 
         for event in events:
-            self.frames.append(event)
+            self.events.append(event)
             if isinstance(event, ResponseReceived):
                 self.handleResponse(event.headers, event.stream_id)
             elif isinstance(event, DataReceived):
@@ -96,7 +91,8 @@ class H2Protocol(Protocol):
         self.conn.close_connection()
         self.transport.write(self.conn.data_to_send())
         self.transport.loseConnection()
-        print(self.frames)
+        self.jsonifyResponseHeaders()
+        print(self.events)
         reactor.stop()
 
     def sendRequest(self):
@@ -111,6 +107,14 @@ class H2Protocol(Protocol):
         # print(type(request_headers))
         self.conn.send_headers(1, request_headers, end_stream=True)
         self.request_made = True
+
+    def jsonifyResponseHeaders(self):
+        for event in self.events:
+            if isinstance(event, RemoteSettingsChanged):
+                output = event.changed_settings
+                print(json.dumps(output))
+
+
 
 
 """
