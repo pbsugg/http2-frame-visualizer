@@ -28,6 +28,8 @@ var rectangles = svgContainer.selectAll("rect")
 .enter()
 .append("rect")
 
+
+//Refactor this hack--no global vars!!
 cumulative_x_offset = 0
 spacing = 0
 // All four values will be affected by this scale
@@ -47,6 +49,7 @@ rectangles.attr("width", function(d) {
              return(scale(d))
           })
           .attr("padding","2")
+	  .attr("fill", "#eddc6d")
 
 </script>
   </body>
