@@ -6,11 +6,6 @@ from h2.events import (
 )
 import json
 
-testObject = RequestReceived()
-testObject.stream_id = 1
-testObject.headers = {"test": "hello"}
-
-
 # sort the object by type
 # give it to the method with the right encoding method
 
@@ -26,8 +21,7 @@ class FrameEventToJSON(json.JSONEncoder):
         # elif isinstance(event, StreamEnded):
         # elif isinstance(event, StreamReset):
         # elif isinstance(event, SettingsAcknowledged):
-        # elif isinstance(event, RequestReceived):
+        # elif isinstance(event, ResponseReceived()):
     
 
 
-print(json.dumps(testObject, cls=FrameEventToJSON))
