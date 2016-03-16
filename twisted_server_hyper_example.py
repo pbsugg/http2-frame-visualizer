@@ -36,7 +36,7 @@ class H2Protocol(Protocol):
         self.conn = H2Connection()
         self.known_proto = b'h2'
         self.request_made = False
-        self.events = []
+        self.processedEvents = []
 
     def connectionMade(self):
         self.conn.initiate_connection()
@@ -52,7 +52,7 @@ class H2Protocol(Protocol):
         events = self.conn.receive_data(data)
 
         for event in events:
-            self.events.append(event)
+            self.processedEvents.append(event)
             if isinstance(event, ResponseReceived):
                 self.handleResponse(event.headers, event.stream_id)
             elif isinstance(event, DataReceived):
@@ -92,7 +92,7 @@ class H2Protocol(Protocol):
         self.transport.write(self.conn.data_to_send())
         self.transport.loseConnection()
         self.jsonifyResponseHeaders()
-        print(self.events)
+        print(self.processedEvents)
         reactor.stop()
 
     def sendRequest(self):
@@ -109,7 +109,7 @@ class H2Protocol(Protocol):
         self.request_made = True
 
     def jsonifyResponseHeaders(self):
-        for event in self.events:
+        for event in self.processedEvents:
             if isinstance(event, RemoteSettingsChanged):
                 output = event.changed_settings
                 print(json.dumps(output))
