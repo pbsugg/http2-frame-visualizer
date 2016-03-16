@@ -14,7 +14,7 @@ testObject.headers = {"test": "hello"}
 # sort the object by type
 # give it to the method with the right encoding method
 
-class FrameEventToJSON(JSONEncoder):
+class FrameEventToJSON(json.JSONEncoder):
 
     def default(self, event):
 
