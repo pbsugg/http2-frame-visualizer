@@ -48,7 +48,20 @@ def test_SettingsAcknowledgedJSON():
             )
 
 def test_ResponseReceivedJSON():
-    pass
-    #assert (json.dumps(data_event, cls=FrameEventToJSON) == 
-
+    response_event = ResponseReceived()
+    response_event.stream_id = 1
+    response_event.headers = [("status", 200),("cache-control", "no-cache"),
+       ('content-encoding', 'gzip'), ('content-length', '29404') ]
+    assert (json.dumps(response_event, cls=FrameEventToJSON) == 
+            json.dumps({"stream_id": response_event.stream_id,
+                "headers": {
+                response_event.headers[0][0]:response_event.headers[0][1],
+                response_event.headers[1][0]:response_event.headers[1][1],
+                response_event.headers[2][0]:response_event.headers[2][1],
+                response_event.headers[3][0]:response_event.headers[3][1]
+                            }
+                        }
+                    )
+            )
+            
 

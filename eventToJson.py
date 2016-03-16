@@ -24,4 +24,6 @@ class FrameEventToJSON(json.JSONEncoder):
         # elif isinstance(event, ResponseReceived()):
     
 
-
+    # return the header object as a series of JSON-encodable arrays
+    def parse_headers_to_JSON(event):
+        pass
