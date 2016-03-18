@@ -21,13 +21,15 @@ class FrameEventToJSON(json.JSONEncoder):
             return {"stream_id": event.stream_id,
             "flow_controlled_length": event.flow_controlled_length,
             "data": event.data}
-        # elif isinstance(event, RemoteSettingsChanged):
+        elif isinstance(event, RemoteSettingsChanged):
+            return {"changed_settings": event.changed_settings}
         # elif isinstance(event, StreamEnded):
         # elif isinstance(event, StreamReset):
-        # elif isinstance(event, SettingsAcknowledged):
+        elif isinstance(event, SettingsAcknowledged):
+            return {"changed_settings": event.changed_settings}
         # elif isinstance(event, ResponseReceived()):
     
 
     # return the header object as a series of JSON-encodable arrays
-    def parse_headers_to_JSON(event):
+    def parse_headers_to_JSON(self, event):
         pass
