@@ -4,6 +4,7 @@ from h2.events import (
     ResponseReceived, DataReceived, RemoteSettingsChanged, StreamEnded,
     StreamReset, SettingsAcknowledged,RequestReceived   
 )
+from h2.events import _bytes_representation
 import json
 
 # sort the object by type
@@ -16,7 +17,10 @@ class FrameEventToJSON(json.JSONEncoder):
         if isinstance(event, RequestReceived):
             return {"stream_id": event.stream_id,
                     "headers": event.headers}
-        # elif isinstance(event, DataReceived):
+        elif isinstance(event, DataReceived):
+            return {"stream_id": event.stream_id,
+            "flow_controlled_length": event.flow_controlled_length,
+            "data": event.data}
         # elif isinstance(event, RemoteSettingsChanged):
         # elif isinstance(event, StreamEnded):
         # elif isinstance(event, StreamReset):

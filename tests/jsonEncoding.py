@@ -2,6 +2,7 @@ import pytest
 import sys
 sys.path.append('../')
 from h2.events import *
+from h2.events import _bytes_representation
 from eventToJson import FrameEventToJSON
 import json
 from h2.settings import ChangedSetting
