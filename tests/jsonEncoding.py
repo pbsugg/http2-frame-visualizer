@@ -2,6 +2,7 @@ import pytest
 import sys
 sys.path.append('../')
 from h2.events import *
+from h2.events import _bytes_representation
 from eventToJson import FrameEventToJSON
 import json
 from h2.settings import ChangedSetting
@@ -47,6 +48,13 @@ def test_SettingsAcknowledgedJSON():
             json.dumps({"changed_settings": settings_event.changed_settings})
             )
 
+def test_StreamEnded():
+    end_event = StreamEnded()
+    end_event.stream_id = 1
+    assert(json.dumps(end_event, cls=FrameEventToJSON) ==
+            json.dumps({"stream_id": end_event.stream_id}) 
+            )
+
 def test_ResponseReceivedJSON():
     response_event = ResponseReceived()
     response_event.stream_id = 1
@@ -61,7 +69,7 @@ def test_ResponseReceivedJSON():
                 response_event.headers[3][0]:response_event.headers[3][1]
                             }
                         }
-                    )
+                   )
             )
             
 
