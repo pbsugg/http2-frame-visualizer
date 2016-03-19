@@ -1,10 +1,10 @@
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template, request
+import json
 
 app = Flask(__name__)
 
 @app.route('/')
-def main():
+def index():
     return render_template('main.html')
 
 @app.route('/hello')
