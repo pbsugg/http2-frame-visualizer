@@ -23,7 +23,8 @@ class FrameEventToJSON(json.JSONEncoder):
             "data": event.data}
         elif isinstance(event, RemoteSettingsChanged):
             return {"changed_settings": event.changed_settings}
-        # elif isinstance(event, StreamEnded):
+        elif isinstance(event, StreamEnded):
+            return {"stream_id":event.stream_id}
         # elif isinstance(event, StreamReset):
         elif isinstance(event, SettingsAcknowledged):
             return {"changed_settings": event.changed_settings}
