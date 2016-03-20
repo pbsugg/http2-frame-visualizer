@@ -115,8 +115,6 @@ class H2Protocol(Protocol):
                 print(json.dumps(output))
 
 
-
-
 """
 fixed ssl with "acceptableProtocols in twisted, see this:"
 http://twisted.readthedocs.org/en/latest/core/howto/ssl.html
@@ -132,5 +130,5 @@ connectProtocol(
     H2Protocol()
 )
 
-
-reactor.run()
+def run():
+    reactor.run()

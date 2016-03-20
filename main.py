@@ -1,15 +1,18 @@
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template, request
+import json
+from twisted_client import *
 
 app = Flask(__name__)
 
 @app.route('/')
-def main():
+def index():
     return render_template('main.html')
 
-@app.route('/hello')
-def stop():
-    return "NO"
+@app.route('/start')
+def return_client_request():
+    run()
+    return("hello")
 
+    
 if __name__ == '__main__':
     app.run(debug=True)
