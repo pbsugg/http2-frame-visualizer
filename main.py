@@ -7,7 +7,7 @@ app = Flask(__name__)
 def index():
     return render_template('main.html')
 
-@app.route('/hello')
+@app.route('/start')
 def stop():
     return "NO"
 
