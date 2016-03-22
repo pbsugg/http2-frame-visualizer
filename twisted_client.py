@@ -131,4 +131,4 @@ connectProtocol(
 )
 
 def run():
-    reactor.run()
+    reactor.run(installSignalHandlers=0)
