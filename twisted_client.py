@@ -25,6 +25,7 @@ from h2.events import (
     StreamReset, SettingsAcknowledged,
 )
 import json
+from eventToJson import FrameEventToJSON
 
 AUTHORITY = u'twitter.com'
 PATH = '/'
@@ -36,7 +37,8 @@ class H2Protocol(Protocol):
         self.conn = H2Connection()
         self.known_proto = b'h2'
         self.request_made = False
-        self.processedEvents = []
+        self.json = None
+        self.eventsToProcess = {}
 
     def connectionMade(self):
         self.conn.initiate_connection()
@@ -45,6 +47,7 @@ class H2Protocol(Protocol):
         self.transport.write(self.conn.data_to_send())
 
     def dataReceived(self, data):
+        # TOFIX: Figure out how to get this method to work.
         # if not self.known_proto:
             # self.known_proto = True
             # assert self.known_proto == b'h2'
@@ -52,7 +55,6 @@ class H2Protocol(Protocol):
         events = self.conn.receive_data(data)
 
         for event in events:
-            self.processedEvents.append(event)
             if isinstance(event, ResponseReceived):
                 self.handleResponse(event.headers, event.stream_id)
             elif isinstance(event, DataReceived):
@@ -67,7 +69,9 @@ class H2Protocol(Protocol):
             else:
                 print(event)
 
-
+        jsonParser = FrameEventToJSON()
+        self.json = jsonParser.packageAllEvents(events)
+        print(self.json)
         data = self.conn.data_to_send()
         if data:
             self.transport.write(data)
@@ -91,8 +95,6 @@ class H2Protocol(Protocol):
         self.conn.close_connection()
         self.transport.write(self.conn.data_to_send())
         self.transport.loseConnection()
-        self.jsonifyResponseHeaders()
-        print(self.processedEvents)
         reactor.stop()
 
     def sendRequest(self):
@@ -104,15 +106,8 @@ class H2Protocol(Protocol):
             ('user-agent', 'hyper-h2/1.0.0')
             ]
 
-        # print(type(request_headers))
         self.conn.send_headers(1, request_headers, end_stream=True)
         self.request_made = True
-
-    def jsonifyResponseHeaders(self):
-        for event in self.processedEvents:
-            if isinstance(event, RemoteSettingsChanged):
-                output = event.changed_settings
-                print(json.dumps(output))
 
 
 """
@@ -131,4 +126,4 @@ connectProtocol(
 )
 
 def run():
-    reactor.run()
+    reactor.run(installSignalHandlers=0)
