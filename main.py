@@ -4,13 +4,13 @@ from twisted_client import *
 from celery import Celery
 
 app = Flask(__name__)
-app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379:0'
-app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379:0'
+app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379'
+app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379'
 
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 celery.conf.update(app.config)
 
-@celery.task
+@celery.task(bind=True)
 def run_web_server():
     run()
 
@@ -20,9 +20,9 @@ def index():
 
 @app.route('/start')
 def return_client_request():
-    run_web_server.apply_async()
-    return("hello")
-
+    task = run_web_server.apply_async()
+    print(task.status)
+    return("goodbye")
     
 if __name__ == '__main__':
     app.run(debug=True)
