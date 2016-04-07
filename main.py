@@ -1,8 +1,18 @@
 from flask import Flask, render_template, request
 import json
 from twisted_client import *
+from celery import Celery
 
 app = Flask(__name__)
+app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379:0'
+app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379:0'
+
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery.conf.update(app.config)
+
+@celery.task
+def run_web_server():
+    run()
 
 @app.route('/')
 def index():
@@ -10,7 +20,7 @@ def index():
 
 @app.route('/start')
 def return_client_request():
-    run()
+    run_web_server.apply_async()
     return("hello")
 
     
