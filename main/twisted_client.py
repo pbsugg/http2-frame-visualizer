@@ -13,11 +13,9 @@ TD: Some sites still fail--redirects, etc.
 """
 
 from __future__ import print_function
-
-from twisted.internet import reactor
-from twisted.internet.endpoints import connectProtocol, SSL4ClientEndpoint
 from twisted.internet.protocol import Protocol
-from twisted.internet.ssl import optionsForClientTLS
+from twisted.internet import reactor
+
 from hyperframe.frame import SettingsFrame
 from h2.connection import H2Connection
 from h2.events import (
@@ -26,19 +24,18 @@ from h2.events import (
 )
 import json
 from eventToJson import FrameEventToJSON
+from messageHandler import messageHandler
 
+SIZE = 4096
 AUTHORITY = u'twitter.com'
 PATH = '/'
-SIZE = 4096
-
 
 class H2Protocol(Protocol):
-    def __init__(self):
+    def __init__(self, messageHandler):
         self.conn = H2Connection()
         self.known_proto = b'h2'
         self.request_made = False
-        self.json = None
-        self.eventsToProcess = {}
+        self.messageHandler = messageHandler
 
     def connectionMade(self):
         self.conn.initiate_connection()
@@ -103,28 +100,10 @@ class H2Protocol(Protocol):
             (':authority', AUTHORITY),
             (':scheme', 'https'),
             (':path', PATH),
-            ('user-agent', 'hyper-h2/1.0.0')
+            ('user-agent', 'Mozilla/5.0 (Macintosh; Intel Max OS X 10_11_3) App'),
+            ('accept', 'application/json, text/javascript'),
             ]
 
         self.conn.send_headers(1, request_headers, end_stream=True)
         self.request_made = True
-
-
-"""
-fixed ssl with "acceptableProtocols in twisted, see this:"
-http://twisted.readthedocs.org/en/latest/core/howto/ssl.html
-"""
-
-options = optionsForClientTLS(
-    hostname=AUTHORITY,
-    acceptableProtocols=[b'h2', b'http/1.1'],
-)
-
-connectProtocol(
-    SSL4ClientEndpoint(reactor, AUTHORITY, 443, options),
-    H2Protocol()
-)
-
-def run():
-    reactor.run(installSignalHandlers=0)
 
