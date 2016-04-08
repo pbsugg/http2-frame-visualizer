@@ -24,7 +24,6 @@ def return_client_request():
     task = run_web_server.apply_async()
     print(task.task_id)
     print(task.status)
-    print(celery.result.AsyncResult(task.task_id))
     return("goodbye")
     
 if __name__ == '__main__':

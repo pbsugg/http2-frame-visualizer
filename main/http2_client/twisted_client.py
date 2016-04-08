@@ -27,7 +27,7 @@ from h2.events import (
 import json
 from eventToJson import FrameEventToJSON
 
-AUTHORITY = u'twitter.com'
+AUTHORITY = u'facebook.com'
 PATH = '/'
 SIZE = 4096
 
@@ -127,4 +127,5 @@ connectProtocol(
 
 def run():
     reactor.run(installSignalHandlers=0)
+run()
 
