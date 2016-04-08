@@ -27,7 +27,7 @@ from h2.events import (
 import json
 from eventToJson import FrameEventToJSON
 
-AUTHORITY = u'facebook.com'
+AUTHORITY = u'twitter.com'
 PATH = '/'
 SIZE = 4096
 
@@ -103,7 +103,8 @@ class H2Protocol(Protocol):
             (':authority', AUTHORITY),
             (':scheme', 'https'),
             (':path', PATH),
-            ('user-agent', 'hyper-h2/1.0.0')
+            ('user-agent', 'Mozilla/5.0 (Macintosh; Intel Max OS X 10_11_3) App'),
+            ('accept', 'application/json, text/javascript'),
             ]
 
         self.conn.send_headers(1, request_headers, end_stream=True)
