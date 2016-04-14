@@ -11,7 +11,6 @@ TD: Add more frame options from h2.events
 TD: Deal with sites that "hang"--provide a termination signal after pre-determined point
 TD: Some sites still fail--redirects, etc.
 """
-
 from __future__ import print_function
 from twisted.internet.protocol import Protocol
 from twisted.internet import reactor
@@ -23,7 +22,10 @@ from h2.events import (
     StreamReset, SettingsAcknowledged,
 )
 import json
-from eventToJson import FrameEventToJSON
+
+import os
+BASE_DIR = os.path.abspath(os.path.dirname(__file__)) 
+
 from messageHandler import messageHandler
 
 SIZE = 4096
@@ -52,6 +54,7 @@ class H2Protocol(Protocol):
         events = self.conn.receive_data(data)
 
         for event in events:
+            self.messageHandler.storeEvent(event, response=True)
             if isinstance(event, ResponseReceived):
                 self.handleResponse(event.headers, event.stream_id)
             elif isinstance(event, DataReceived):
@@ -66,9 +69,6 @@ class H2Protocol(Protocol):
             else:
                 print(event)
 
-        jsonParser = FrameEventToJSON()
-        self.json = jsonParser.packageAllEvents(events)
-        print(self.json)
         data = self.conn.data_to_send()
         if data:
             self.transport.write(data)
@@ -92,6 +92,7 @@ class H2Protocol(Protocol):
         self.conn.close_connection()
         self.transport.write(self.conn.data_to_send())
         self.transport.loseConnection()
+        print(self.messageHandler.responseFrames)
         reactor.stop()
 
     def sendRequest(self):
