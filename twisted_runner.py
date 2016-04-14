@@ -22,7 +22,7 @@ SIZE = 4096
 AUTHORITY = u'twitter.com'
 PATH = '/'
 
-def run(handler): 
+def run(messagehandler): 
 
     options = optionsForClientTLS(
         hostname=AUTHORITY,
@@ -31,7 +31,7 @@ def run(handler):
 
     connectProtocol(
         SSL4ClientEndpoint(reactor, AUTHORITY, 443, options),
-        H2Protocol(handler)
+        H2Protocol(messagehandler)
     )
 
     reactor.run(installSignalHandlers=0)

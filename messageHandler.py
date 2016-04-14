@@ -2,6 +2,10 @@
 # Hold all request data as it's assembled
 # Hold all response data as it's assembled 
 # Put that data in a dict so can be passed further up the chain
+from h2.events import (
+    RequestReceived, ResponseReceived, DataReceived, RemoteSettingsChanged, StreamEnded,
+    StreamReset, SettingsAcknowledged,
+)
 
 class messageHandler():
 

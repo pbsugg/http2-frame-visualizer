@@ -25,9 +25,7 @@ import json
 
 import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__)) 
-# not sure if this is best practice for importing from other directories,
-import sys
-sys.path.append('./http2_client')
+
 from messageHandler import messageHandler
 
 SIZE = 4096
@@ -56,6 +54,7 @@ class H2Protocol(Protocol):
         events = self.conn.receive_data(data)
 
         for event in events:
+            self.messageHandler.storeEvent(event, response=True)
             if isinstance(event, ResponseReceived):
                 self.handleResponse(event.headers, event.stream_id)
             elif isinstance(event, DataReceived):
@@ -70,8 +69,6 @@ class H2Protocol(Protocol):
             else:
                 print(event)
 
-        #jsonParser = FrameEventToJSON()
-        #self.json = jsonParser.packageAllEvents(events)
         data = self.conn.data_to_send()
         if data:
             self.transport.write(data)
@@ -95,6 +92,7 @@ class H2Protocol(Protocol):
         self.conn.close_connection()
         self.transport.write(self.conn.data_to_send())
         self.transport.loseConnection()
+        print(self.messageHandler.responseFrames)
         reactor.stop()
 
     def sendRequest(self):
