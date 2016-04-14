@@ -15,16 +15,14 @@ from twisted_client import H2Protocol
 
 # for passing messages
 BASE_DIR = os.path.abspath(os.path.dirname(__file__)) 
-os.chdir('..')
 from messageHandler import messageHandler
-os.chdir(BASE_DIR)
 
 
 SIZE = 4096
 AUTHORITY = u'twitter.com'
 PATH = '/'
 
-def run(messageHandler): 
+def run(handler): 
 
     options = optionsForClientTLS(
         hostname=AUTHORITY,

@@ -1,9 +1,16 @@
 from flask import Flask, render_template, request
 import json
-# from twisted_client import *
-from twisted_runner import *
 from celery import Celery, result
+
 from messageHandler import messageHandler
+
+
+import os
+BASE_DIR = os.path.abspath(os.path.dirname(__file__)) 
+# not sure if this is best practice for importing from other directories,
+import sys
+from twisted_client import *
+from twisted_runner import *
 
 app = Flask(__name__)
 app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379'
@@ -26,8 +33,8 @@ def return_client_request():
     #task = run_web_server.apply_async()
     #print(task.task_id)
     #print(task.status)
-    print(handler.responseFrames)
-    run()
+    bob = messageHandler()
+    run(bob)
     return("goodbye")
     
 if __name__ == '__main__':

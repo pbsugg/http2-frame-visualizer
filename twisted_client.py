@@ -11,7 +11,6 @@ TD: Add more frame options from h2.events
 TD: Deal with sites that "hang"--provide a termination signal after pre-determined point
 TD: Some sites still fail--redirects, etc.
 """
-
 from __future__ import print_function
 from twisted.internet.protocol import Protocol
 from twisted.internet import reactor
@@ -23,7 +22,12 @@ from h2.events import (
     StreamReset, SettingsAcknowledged,
 )
 import json
-from eventToJson import FrameEventToJSON
+
+import os
+BASE_DIR = os.path.abspath(os.path.dirname(__file__)) 
+# not sure if this is best practice for importing from other directories,
+import sys
+sys.path.append('./http2_client')
 from messageHandler import messageHandler
 
 SIZE = 4096
@@ -66,9 +70,8 @@ class H2Protocol(Protocol):
             else:
                 print(event)
 
-        jsonParser = FrameEventToJSON()
-        self.json = jsonParser.packageAllEvents(events)
-        print(self.json)
+        #jsonParser = FrameEventToJSON()
+        #self.json = jsonParser.packageAllEvents(events)
         data = self.conn.data_to_send()
         if data:
             self.transport.write(data)
