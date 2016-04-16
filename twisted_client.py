@@ -54,7 +54,7 @@ class H2Protocol(Protocol):
         events = self.conn.receive_data(data)
 
         for event in events:
-            self.messageHandler.storeEvent(event, response=True)
+            self.messageHandler.storeEvent(event)
             if isinstance(event, ResponseReceived):
                 self.handleResponse(event.headers, event.stream_id)
             elif isinstance(event, DataReceived):

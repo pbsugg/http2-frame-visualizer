@@ -2,7 +2,7 @@ $(document).ready(function(){
 	
 	$("#makeRequest").click(function(){
 		$.ajax({
-			url: "/start",
+			url: "/http2",
 			type: "GET",
 			dataType:"json",
 		})
