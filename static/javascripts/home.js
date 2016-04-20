@@ -3,8 +3,7 @@ $(document).ready(function(){
 	$("#makeRequest").click(function(){
 		$.ajax({
 			url: "/http2",
-			type: "GET",
-			dataType:"json",
+			type: "POST",
 		})
 		.done(function(json){
 		$("<p>").text(json.title)
