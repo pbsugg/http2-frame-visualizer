@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import json
 from celery import Celery, result
 from flask import jsonify, url_for
+import time
 
 from messageHandler import messageHandler
 
@@ -51,6 +52,11 @@ def http2request(task_id):
 def run_http2(self):
     bob = messageHandler()
     run(bob)
+    time.sleep(2)
+    if bob.responseFrames:
+        print("yes")
+    else:
+        print("no")
     print(bob.responseFrames)
 
 if __name__ == '__main__':
