@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
 import json
 from celery import Celery, result
+from flask import jsonify, url_for
+import time
 
 from messageHandler import messageHandler
 
@@ -28,14 +30,34 @@ def run_web_server():
 def index():
     return render_template('main.html')
 
-@app.route('/start')
-def return_client_request():
-    #task = run_web_server.apply_async()
-    #print(task.task_id)
-    #print(task.status)
+#route to run http2 request and return its task ID
+#runs the next method down, which depends on the task id
+@app.route('/http2', methods=['POST'])
+def start_http2_request():
+    task = run_http2.apply_async()
+    return http2request(task.id)
+    # return jsonify({}), 202, {'Location': url_for('http2request',
+    #                                                task_id=task.id) } 
+
+@app.route('/http2request/<task_id>')
+def http2request(task_id):
+    print(task_id)
+    task = run_http2.AsyncResult(task_id)
+    print(task.state)
+    return "done"
+    # task.state = 'PENDING'
+
+#celery function that runs my http2 server
+@celery.task(bind=True)
+def run_http2(self):
     bob = messageHandler()
     run(bob)
-    return("goodbye")
-    
+    time.sleep(2)
+    if bob.responseFrames:
+        print("yes")
+    else:
+        print("no")
+    print(bob.responseFrames)
+
 if __name__ == '__main__':
     app.run(debug=True)
