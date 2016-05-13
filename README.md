@@ -29,9 +29,10 @@ into old-style HTTP/1.1 headers.  To see this for yourself, visit Chrome's
 "Network" tab and go to [Twitter](www.twitter.com), a site that offers the HTTP/2 spec
 for compatible browsers. Click on any request or response that uses the
 "h2"(HTTP/2) protocol and it will show you headers in the old HTTP/1.1 style.
-The frames are hidden, but that doesn't mean they are not there!  With HTTP/2,
-we've added a layer of complexity to the HTTP spec that is hidden from our dev
-tools and from developers, which is sure to cause problems down the line as the
+The frames are hidden, but that doesn't mean they are not there!  
+
+What this means is that with HTTP/2, we've added a layer of complexity to the HTTP spec that is hidden from our dev
+tools and from developers themselves, which is sure to cause problems down the line as the
 HTTP/2 spec is integrated into more frameworks and becomes a daily part of life
 for many developers. Without a bit of knowledge about the underlying mechanics
 of HTTP/2, a developer could be unaware that the basic protocol of the web has
