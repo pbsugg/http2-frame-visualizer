@@ -35,6 +35,7 @@ def index():
 @app.route('/http2', methods=['POST'])
 def start_http2_request():
     task = run_http2.apply_async()
+    time.sleep(2)
     return http2request(task.id)
     # return jsonify({}), 202, {'Location': url_for('http2request',
     #                                                task_id=task.id) } 
@@ -52,7 +53,6 @@ def http2request(task_id):
 def run_http2(self):
     bob = messageHandler()
     run(bob)
-    time.sleep(2)
     if bob.responseFrames:
         print("yes")
     else:
