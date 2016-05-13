@@ -48,7 +48,7 @@ in web technologies.  It builds a basic toolkit of visualizations that helps dem
 
 ##Further HTTP/2 Info
 
-[Official spec](https://github.com/http2/http2-spec)
-[A helpful overview of HTTP/2's origins and
+* [Official spec](https://github.com/http2/http2-spec)
+* [A helpful overview of HTTP/2's origins and
 development](https://www.smashingmagazine.com/2016/02/getting-ready-for-http2/)
 
