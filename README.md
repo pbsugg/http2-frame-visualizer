@@ -20,7 +20,7 @@ the coordinating headers) exactly as your browser would.
 
 But the new HTTP/2 spec makes the process a lot less straightforward and transparent (not to mention potentially harder to debug!).  Both requests and responses are broken up into
 frames, a slice of the HTTP
-request and response with defined parameters. For example, there are DATA frames, PRIORITY frames, SETTINGS frames, PUSH PROMISE frames, and others that help coordinate both aspects of the HTTP protocol that are familiar from HTTP/1.1 and HTTP/2's new features.  You can find a full list of HTTP/2 frames  the [official spec](https://tools.ietf.org/html/rfc7540#section-6).
+request and response with defined parameters. For example, there are DATA frames, PRIORITY frames, SETTINGS frames, PUSH PROMISE frames, and others that help coordinate both aspects of the HTTP protocol that are familiar from HTTP/1.1 and HTTP/2's new features.  You can find a full list of HTTP/2 frames at the [official spec](https://tools.ietf.org/html/rfc7540#section-6).
 
 ## Goals
 
@@ -40,7 +40,7 @@ shifted to this new object called a "frame!"
 This project is aimed at a developer audience, along with anyone else interested
 in web technologies.  It builds a basic toolkit of visualizations that helps demystify the inner workings of HTTP/2.
  
-# Technical Components
+## Technical Components
 
 * Visualizations constructed in [D3.js](https://d3js.org/).
 * Python [Flask](http://flask.pocoo.org/) webserver on the back end.
