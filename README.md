@@ -11,7 +11,7 @@ every new request and response. Under the old spec, it's possible to build a
 simple HTTP server from scratch using a simple TCP socket interface. If you're building your
 own HTTP/1.x client, just send a properly formatted request and you'll get a well-formatted header and text field in response.  It's a great exercise,
 and you can see my implementation of a simple HTTP/1.1 server here. You can also approximate
-a simple curl request on the command line.  Just type
+a simple HTTP request on the command line.  Just type
 
 `curl -v http://(any site)`
 
