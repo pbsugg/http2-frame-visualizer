@@ -40,8 +40,7 @@ shifted to this new object called a "frame!"
 This project is aimed at a developer audience, along with anyone else interested
 in web technologies.  It builds a basic toolkit of visualizations that helps demystify the inner workings of HTTP/2.
 
-![visual
-mockup](https://github.com/pbsugg/http2-frame-visualizer/mockup_images/frame_timeline.jpg)
+![visual mockup](./mockup_images/frame_timeline.jpg)
  
 ## Technical Components
 
