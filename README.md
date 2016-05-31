@@ -19,16 +19,16 @@ the coordinating headers) exactly as your browser would.
 
 But the new HTTP/2 spec makes the process a lot less straightforward and transparent (not to mention potentially harder to debug!).  Both requests and responses are broken up into
 frames, a slice of the HTTP
-request and response with defined parameters. For example, there are DATA frames, PRIORITY frames, SETTINGS frames, PUSH PROMISE frames, and others that help coordinate both aspects of the HTTP protocol that are familiar from HTTP/1.1 and HTTP/2's new features.  You can find a full list of HTTP/2 frames at the [official spec](https://tools.ietf.org/html/rfc7540#section-6).
+request and response with defined parameters. For example, there are DATA frames, PRIORITY frames, SETTINGS frames, PUSH PROMISE frames, and others that help coordinate all aspects of the HTTP/2 exchange.  You can find a full list of HTTP/2 frames at the [official spec](https://tools.ietf.org/html/rfc7540#section-6).
 
 ## Goals
 
 The dev tools for a modern browser like Chrome already translate HTTP/2 requests and responses back
 into old-style HTTP/1.1 headers.  To see this for yourself, visit Chrome's
-"Network" tab and go to [Twitter](www.twitter.com), a site that offers the HTTP/2 spec
+"Network" tab and go to [Twitter](www.twitter.com), a site that offers the HTTP/2 protocol
 for compatible browsers. Click on any request or response that uses the
 "h2"(HTTP/2) protocol and it will show you headers in the old HTTP/1.1 style.
-The frames are hidden, but that doesn't mean they are not there!  
+The frames are hidden, but they're still there!  
 
 What this means is that with HTTP/2, we've added a layer of complexity to the HTTP spec that is hidden from our dev
 tools and from developers themselves, which is sure to cause problems down the line as the
