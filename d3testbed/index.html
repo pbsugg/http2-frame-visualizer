@@ -3,54 +3,94 @@
   <head>
     <meta charset="utf-8">
     <title>D3 Page Template</title>
-    <script type="text/javascript" src="d3/d3.js"></script>
+    <!-- <script type="text/javascript" src="d3/d3.js"></script> -->
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
   </head>
   <body>
 <script type="text/javascript">
 
 dataset = [ 20, 8144, 4096, 400, 2]
 
+var min = d3.min(dataset)
+var max = d3.max(dataset)
+
+var scale = d3.scaleLog()
+            .domain([min, max])
+            .range([50, 200])
 
 var svgContainer = d3.select("body")
 .append("svg")
 .attr("height","1500")
 .attr("width","1500")
 
-var min = d3.min(dataset)
-var max = d3.max(dataset)
-
-var scale = d3.scale.log()
-            .domain([min, max])
-            .range([50, 200])
-
-var rectangles = svgContainer.selectAll("rect")
-.data(dataset)
-.enter()
-.append("rect")
-
+// create a group to contain rect and text
 
 //Refactor this hack--no global vars!!
 cumulative_x_offset = 0
 spacing = 0
-// All four values will be affected by this scale
-rectangles.attr("width", function(d) {
+
+var rectGroup = svgContainer.selectAll("g")
+  .data(dataset)
+  .enter()
+  .append("g")
+  .attr("transform", function(d, i){
+    //translate moves the starting point of "g" element, don't have to give it dimensions (rectangle will do that, just define where it starts drawing from)
+        //x coordinate
+       var x = cumulative_x_offset + spacing
+       cumulative_x_offset += scale(d)
+       spacing += 10
+       //y
+       var y = 200 - (scale(d)/2)
+
+    return("translate(" + x + "," + y + ")");
+  });
+
+
+rectGroup.append("rect")
+         .attr("width", function(d) {
              return(scale(d))
-          })
-          .attr("x", function(d, i) {
-             var offset = cumulative_x_offset + spacing
-             cumulative_x_offset += scale(d)
-             spacing += 10
-             return(offset)
-          })
-          .attr("y", function(d) {
-             return(200 - (scale(d)/2))
           })
           .attr("height", function(d) {
              return(scale(d))
           })
-          .attr("padding","2")
-	  .attr("fill", "#eddc6d")
+          .attr("fill", "#eddc6d")
 
+// All four values will be affected by this scale
+// rectangles.attr("width", function(d) {
+//              return(scale(d))
+//           })
+//           // once you complete translation function, this will take care of "x" and "y".
+//           .attr("x", function(d, i) {
+//              var offset = cumulative_x_offset + spacing
+//              cumulative_x_offset += scale(d)
+//              spacing += 10
+//              return(offset)
+//           })
+//           .attr("y", function(d) {
+//              return(200 - (scale(d)/2))
+//           })
+//           .attr("height", function(d) {
+//              return(scale(d))
+//           })
+//           .attr("padding","2")
+// 	  .attr("fill", "#eddc6d")
+    // .append("text")
+    // .append("tspan")
+    // .attr("x", 2)
+    // .attr("y", 5)
+    // .text("hello man")
+
+ rectGroup.append("text")
+          .attr("x",function(d){
+            var x = 2
+            return(x += 10)
+          } )
+          .attr("y", function(d){
+            var y = 2
+            return(y += 10)
+          })
+          .text("hello")
 </script>
   </body>
 </html>
