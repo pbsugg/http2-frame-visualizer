@@ -10,14 +10,17 @@
   <body>
 <script type="text/javascript">
 
-dataset = [ 20, 8144, 4096, 400, 2]
 
-var min = d3.min(dataset)
-var max = d3.max(dataset)
 
-var scale = d3.scaleLog()
-            .domain([min, max])
-            .range([50, 200])
+
+var drawing = d3.csv("./testData.csv", row, function(error, data) {
+  var min = d3.min(data, function(d) { return d.value; });
+  var max = d3.max(data, function(d) { return d.value; });
+
+  var scale = d3.scaleLog()
+              .domain([min, max])
+              .range([50, 200])
+
 
 var svgContainer = d3.select("body")
 .append("svg")
@@ -31,17 +34,17 @@ cumulative_x_offset = 0
 spacing = 0
 
 var rectGroup = svgContainer.selectAll("g")
-  .data(dataset)
+  .data(data)
   .enter()
   .append("g")
   .attr("transform", function(d, i){
     //translate moves the starting point of "g" element, don't have to give it dimensions (rectangle will do that, just define where it starts drawing from)
         //x coordinate
        var x = cumulative_x_offset + spacing
-       cumulative_x_offset += scale(d)
+       cumulative_x_offset += scale(d.value)
        spacing += 10
        //y
-       var y = 200 - (scale(d)/2)
+       var y = 200 - (scale(d.value)/2)
 
     return("translate(" + x + "," + y + ")");
   });
@@ -49,37 +52,12 @@ var rectGroup = svgContainer.selectAll("g")
 
 rectGroup.append("rect")
          .attr("width", function(d) {
-             return(scale(d))
+             return(scale(d.value))
           })
           .attr("height", function(d) {
-             return(scale(d))
+             return(scale(d.value))
           })
           .attr("fill", "#eddc6d")
-
-// All four values will be affected by this scale
-// rectangles.attr("width", function(d) {
-//              return(scale(d))
-//           })
-//           // once you complete translation function, this will take care of "x" and "y".
-//           .attr("x", function(d, i) {
-//              var offset = cumulative_x_offset + spacing
-//              cumulative_x_offset += scale(d)
-//              spacing += 10
-//              return(offset)
-//           })
-//           .attr("y", function(d) {
-//              return(200 - (scale(d)/2))
-//           })
-//           .attr("height", function(d) {
-//              return(scale(d))
-//           })
-//           .attr("padding","2")
-// 	  .attr("fill", "#eddc6d")
-    // .append("text")
-    // .append("tspan")
-    // .attr("x", 2)
-    // .attr("y", 5)
-    // .text("hello man")
 
  rectGroup.append("text")
           .attr("x",function(d){
@@ -90,7 +68,50 @@ rectGroup.append("rect")
             var y = 2
             return(y += 10)
           })
-          .text("hello")
+          .text(function(d){ return(d.text) });
+
+});
+
+function row(d) {
+  d.value = +d.value; // coerce to number
+  return d;
+}
+
+
+// function wrap(text, width){
+//   var text = d3.select(this),
+//   words = text.text().split(" "),
+//   word,
+//   line = [],
+//   lineNumber = 0,
+//   lineHeight = 1.1, //ems
+//   y = text.attr("y"),
+//   dy = parseFloat(text.attr("dy")),
+//   tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+//   while (words = words.pop()){
+//     line.push(word);
+//     tspan.text(line.join(" "));
+//     if (tspan.node().getComputedTextLength > width) {
+//       line.pop();
+//       tspan.text(line.join(" "));
+//       line = [word];
+//       tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight)
+//     }
+//   }
+//
+// }
+
+/*
+Split the text
+For each axis (x and y):
+start grabbing words of text
+if it's longer than the specific line length (some percentage of box)
+kick it to the next line
+else, keep accumulating
+
+
+*/
+
 </script>
   </body>
 </html>
