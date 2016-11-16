@@ -11,9 +11,7 @@
 <script type="text/javascript">
 
 
-
-
-var drawing = d3.csv("./testData.csv", row, function(error, data) {
+d3.csv("./testData.csv", row, function(error, data) {
   var min = d3.min(data, function(d) { return d.value; });
   var max = d3.max(data, function(d) { return d.value; });
 
@@ -70,6 +68,10 @@ rectGroup.append("rect")
           })
           .text(function(d){ return(d.text) });
 
+      rect = rectGroup.selectAll("text")
+      .call(wrap, 100);
+      // console.log(rect)
+
 });
 
 function row(d) {
@@ -78,28 +80,32 @@ function row(d) {
 }
 
 
-// function wrap(text, width){
-//   var text = d3.select(this),
-//   words = text.text().split(" "),
-//   word,
-//   line = [],
-//   lineNumber = 0,
-//   lineHeight = 1.1, //ems
-//   y = text.attr("y"),
-//   dy = parseFloat(text.attr("dy")),
-//   tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
-//   while (words = words.pop()){
-//     line.push(word);
-//     tspan.text(line.join(" "));
-//     if (tspan.node().getComputedTextLength > width) {
-//       line.pop();
-//       tspan.text(line.join(" "));
-//       line = [word];
-//       tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight)
-//     }
-//   }
-//
-// }
+function wrap(text, width){
+  // var text = d3.select(this)
+  words = text.text().split(" ").reverse()
+  var word = null;
+  var line = [];
+  lineNumber = 0;
+  lineHeight = 20; //ems
+  y = text.attr("y");
+  dy = 0;
+  // dy = parseFloat(text.attr("dy"));
+  tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy);
+  while (word = words.pop()){
+    line.push(word);
+    tspan.text(line.join(" "));
+    if (tspan.node().getComputedTextLength() > width) {
+      line.pop();
+      tspan.text(line.join(" "));
+      line = [word];
+      // the current word will be the first word of NEXT line if lines is already over
+      console.log(line);
+      tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight)
+      //this applies to NEXT line
+    }
+  }
+
+}
 
 /*
 Split the text
