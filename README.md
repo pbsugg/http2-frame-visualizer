@@ -8,7 +8,7 @@ This is a tool for visualizing the frames of an HTTP/2 request/response stream i
 real time. HTTP/1.x, the previous standard still in widespread use today, passes
 a continuous stream of text (always beginning with a precisely-formatted header) back and forth with
 every new request and response. Under the old spec, it's possible to build a
-simple HTTP server from scratch using a simple TCP socket interface. If you're building your
+simple HTTP server from scratch using a TCP socket interface. If you're building your
 own HTTP/1.x client, just send a properly formatted request and you'll get a well-formatted header and text field in response.  It's a great exercise, and you can see my implementation of a simple HTTP/1.1 server [here](https://github.com/pbsugg/http1.x-server). You can also approximate
 a simple HTTP request on the command line.  Just type
 
@@ -30,14 +30,14 @@ for compatible browsers. Click on any request or response that uses the
 "h2"(HTTP/2) protocol and it will show you headers in the old HTTP/1.1 style.
 The frames are hidden, but they're still there!  
 
-What this means is that with HTTP/2, we've added a layer of complexity to the HTTP spec that is hidden from our dev
+What this means is that with HTTP/2, we've added a layer of complexity to the HTTP spec that is hidden from our (current) dev
 tools and from developers themselves, which is sure to cause problems down the line as the
 HTTP/2 spec is integrated into more frameworks and becomes a daily part of life
 for many developers. Without a bit of knowledge about the underlying mechanics
 of HTTP/2, a developer could be unaware that the basic protocol of the web has
 shifted to this new object called a "frame!"
 
-This project is aimed at a developer audience, along with anyone else interested
+This project is aimed at both a technical and non-technical audience, along with anyone else interested
 in web technologies.  It builds a basic toolkit of visualizations that helps demystify the inner workings of HTTP/2.
 
 ![visual mockup](./mockup_images/frame_timeline.jpg)
